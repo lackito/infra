@@ -11,9 +11,10 @@
 **/crash.log
 **/crash.*.log
 
-# Block local variable files (often containing secrets)
-#**/*.tfvars
-#**/*.tfvars.json
+Block local variable files (often containing secrets)
+**/*.tfvars
+**/*.tfvars.json
+!example.tfvars
 
 # Block override files
 override.tf
@@ -30,3 +31,11 @@ override.tf.json
 
 # Ignore terraform plan output files
 **/*.tfplan
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
