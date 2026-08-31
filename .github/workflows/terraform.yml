@@ -113,7 +113,7 @@ jobs:
     if: |
       (github.ref == 'refs/heads/main' && github.event_name == 'push') ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'apply')
-    # dev   # ← pauses here and waits for manual approval
+    environment: dev   # ← pauses here and waits for manual approval
     defaults:
       run:
         working-directory: envs/dev
@@ -162,7 +162,7 @@ jobs:
       github.event_name == 'workflow_dispatch' &&
       github.event.inputs.action == 'destroy' &&
       github.event.inputs.confirm_destroy == 'destroy'
-    #environment: dev   # ← approval gate for destroy too
+    environment: dev   # ← approval gate for destroy too
     defaults:
       run:
         working-directory: envs/dev
