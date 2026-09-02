@@ -19,6 +19,11 @@ module "vpc" {
   database_subnet_cidrs = ["10.1.5.0/24", "10.1.6.0/24"]
 }
 
+# Query the IAM Role directly from AWS IAM API by its name
+data "aws_iam_role" "github_actions_ci" {
+  name = "zenpharma-dev-github-actions-role"
+}
+
 module "eks" {
   source = "../../modules/eks"
 
@@ -31,6 +36,30 @@ module "eks" {
   min_size           = 1
   max_size           = 3
   desired_size       = 2
+
+  access_entries = {
+    # 1. Human Identity Center SSO
+    sso_admin = {
+      principal_arn = "arn:aws:iam::650032249451:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_AdministratorAccess_6b0a9fa820943c11"
+      policy_associations = {
+        admin = {
+          policy_arn   = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = { type = "cluster" }
+        }
+      }
+    }
+
+    # 2. Application CI Role from Bootstrap
+    github_actions_ci = {
+      principal_arn = data.aws_iam_role.github_actions_ci.arn
+      policy_associations = {
+        admin = {
+          policy_arn   = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = { type = "cluster" }
+        }
+      }
+    }
+  }
 }
 
 module "rds" {

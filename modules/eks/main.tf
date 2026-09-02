@@ -12,7 +12,10 @@ module "eks" {
   endpoint_public_access  = true
 
   enable_irsa                              = true
-  enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = false
+
+  # Pass through the variable from the root module
+  access_entries = var.access_entries
 
   addons = {
     vpc-cni = {

@@ -20,4 +20,21 @@ variable "github_oidc_subject" {
   type        = string
   default     = "repo:lackito*/infra*:*"
 }
-  
+
+variable "github_org" {
+  description = "GitHub username or organization that owns frontend and backend"
+  type        = string
+  default     = "lackito"
+}
+
+variable "aws_account_id" {
+  description = "AWS Account ID"
+  type        = string
+  default     = "650032249451"
+}
+
+variable "env" {
+  description = "Environment name (dev, qa, prod)"
+  type        = string
+  default     = "dev"
+}
