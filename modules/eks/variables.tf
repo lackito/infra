@@ -47,3 +47,10 @@ variable "max_size" {
   type        = number
   default     = 3
 }
+
+# modules/eks/variables.tf
+variable "access_entries" {
+  description = "Map of access entries to add to the cluster"
+  type        = any
+  default     = {}
+}
